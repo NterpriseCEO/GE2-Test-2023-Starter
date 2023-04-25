@@ -13,6 +13,8 @@ var controllingCreature = false
 
 var boid
 
+signal user_steering_disabled
+
 func _input(event):
 	if event is InputEventMouseMotion and controlling and !controllingCreature:
 		rotate(Vector3.DOWN, deg2rad(event.relative.x * sensitivity))
@@ -24,6 +26,9 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		controlling = ! controlling
+	if event.is_action("z"):
+		controllingCreature = false
+		emit_signal("user_steering_disabled")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -35,7 +40,7 @@ func _ready():
 export var move:bool = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):	
+func _process(delta):
 	if move and !controllingCreature:
 		var mult = 1
 		if Input.is_key_pressed(KEY_SHIFT):

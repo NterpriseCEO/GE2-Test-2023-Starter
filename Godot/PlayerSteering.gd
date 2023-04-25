@@ -8,6 +8,9 @@ func draw_gizmos():
 func _ready():
 	boid = get_parent()
 	
+	var player = get_node('../../../Player')
+	player.connect("user_steering_disabled", self, "_on_player_control_disabled")
+
 func calculate():
 	var projectedRight = boid.global_transform.basis.x
 	projectedRight.y = 0
@@ -21,6 +24,8 @@ func calculate():
 	force += Vector3.UP * upanddown
 	return force
 
+func _on_player_control_disabled():
+	self.enabled = false
 
 func _on_I_AM_AREA_body_entered(body):
 	self.enabled = true
