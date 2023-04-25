@@ -207,7 +207,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Games Engines Exam 2023"
-run/main_scene="res://StateMachineBots.tscn"
+run/main_scene="res://exam_creature.tscn"
 config/icon="res://icon.png"
 
 [autoload]
