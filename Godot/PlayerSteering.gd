@@ -19,4 +19,8 @@ func calculate():
 	force += move * boid.global_transform.basis.z
 	force += turn * projectedRight
 	force += Vector3.UP * upanddown
-	return force	
+	return force
+
+
+func _on_I_AM_AREA_body_entered(body):
+	self.enabled = true

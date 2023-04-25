@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://FollowPath.gd" type="Script" id=1]
 [ext_resource path="res://SpineAnimator.gd" type="Script" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://NoiseWander.gd" type="Script" id=4]
 [ext_resource path="res://PlayerSteering.gd" type="Script" id=5]
 [ext_resource path="res://labTest/pod.tscn" type="PackedScene" id=6]
-[ext_resource path="res://labTest/PodCollision.gd" type="Script" id=7]
 [ext_resource path="res://Constrain.gd" type="Script" id=8]
 [ext_resource path="res://Tank Material.tres" type="Material" id=9]
 [ext_resource path="res://Harmonic.gd" type="Script" id=10]
@@ -43,10 +42,6 @@ ambient_light_energy = 2.0
 
 [sub_resource type="SphereShape" id=15]
 
-[sub_resource type="SphereShape" id=19]
-
-[sub_resource type="SphereMesh" id=20]
-
 [sub_resource type="Curve3D" id=16]
 _data = {
 "points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -11.2065, -9.15527e-05, -29.797, 0, 0, 0, 0, 0, 0, -2.83316, 0.000137329, -9.18577, 0, 0, 0, 0, 0, 0, 16.3011, 23.6271, -8.24546, 0, 0, 0, 0, 0, 0, 46.7083, -5.34058e-05, -27.2299, 0, 0, 0, 0, 0, 0, 52.709, 22.523, -0.299791, 0, 0, 0, 0, 0, 0, 61.4845, 0, 43.691, 0, 0, 0, 0, 0, 0, 41.071, 9.53445, 8.45671, 0, 0, 0, 0, 0, 0, 2.29026, 0, 45.1004, 0, 0, 0, 0, 0, 0, 24.8938, -17.113, 20.9767 ),
@@ -63,7 +58,6 @@ script = ExtResource( 2 )
 bonePaths = [ NodePath("../boid"), NodePath("../body1"), NodePath("../body2"), NodePath("../body3"), NodePath("../tail") ]
 
 [node name="Node" type="Node" parent="creature/spineanimator"]
-script = ExtResource( 7 )
 
 [node name="boid" type="KinematicBody" parent="creature"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.5154 )
@@ -119,14 +113,17 @@ waypoint_seek_distance = 5
 script = ExtResource( 5 )
 weight = 15.0
 draw_gizmos = false
+enabled = false
 
-[node name="I AM AREA" type="Area" parent="creature/boid"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+[node name="Area" type="Area" parent="creature/boid"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="creature/boid/I AM AREA"]
+[node name="CollisionShape" type="CollisionShape" parent="creature/boid/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 shape = SubResource( 21 )
 
-[node name="Dodecahedron" parent="creature/boid/I AM AREA/CollisionShape" instance=ExtResource( 6 )]
+[node name="Dodecahedron" parent="creature/boid/Area" instance=ExtResource( 6 )]
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0 )
 
 [node name="body1" type="KinematicBody" parent="creature"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9 )
@@ -191,15 +188,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
 [node name="CollisionShape" type="CollisionShape" parent="Player/Camera/KinematicBody"]
 shape = SubResource( 15 )
 
-[node name="I AM KINEMATIC" type="KinematicBody" parent="Player/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.54781 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Player/Camera/I AM KINEMATIC"]
-shape = SubResource( 19 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Player/Camera/I AM KINEMATIC"]
-mesh = SubResource( 20 )
-
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
 shape = SubResource( 15 )
 
@@ -226,4 +214,5 @@ radius = 30
 
 [node name="SceneSwitcher" parent="." instance=ExtResource( 17 )]
 
-[connection signal="body_entered" from="creature/boid/I AM AREA" to="creature/spineanimator/Node" method="_on_I_AM_AREA_body_entered"]
+[connection signal="body_entered" from="creature/boid/Area" to="creature/boid/UserSteering" method="_on_I_AM_AREA_body_entered"]
+[connection signal="body_entered" from="creature/boid/Area" to="Player" method="_on_I_AM_AREA_body_entered"]
