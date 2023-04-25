@@ -77,13 +77,11 @@ shape = SubResource( 9 )
 [node name="Avoidance" type="Node" parent="creature/boid"]
 script = ExtResource( 3 )
 weight = 10.0
-enabled = false
 feeler_length = 15
 
 [node name="Harmonic" type="Node" parent="creature/boid"]
 script = ExtResource( 10 )
 weight = 3.0
-enabled = false
 frequency = 0.5
 distance = 10
 axis = 1
@@ -91,13 +89,11 @@ axis = 1
 [node name="Constrain" type="Node" parent="creature/boid"]
 script = ExtResource( 8 )
 weight = 0.1
-enabled = false
 center_path = NodePath("../../../Obstacles")
 
 [node name="NoiseWander" type="Node" parent="creature/boid"]
 script = ExtResource( 4 )
 draw_gizmos = false
-enabled = false
 radius = 50.0
 amplitude = 90
 distance = 100
@@ -105,7 +101,6 @@ distance = 100
 [node name="PathFollow" type="Node" parent="creature/boid"]
 script = ExtResource( 1 )
 weight = 3.0
-enabled = false
 path_path = NodePath("../../../Path")
 waypoint_seek_distance = 5
 
@@ -214,5 +209,14 @@ radius = 30
 
 [node name="SceneSwitcher" parent="." instance=ExtResource( 17 )]
 
+[connection signal="body_entered" from="creature/boid/Area" to="creature/boid/Harmonic" method="_on_Area_body_entered"]
+[connection signal="body_entered" from="creature/boid/Area" to="creature/boid/Constrain" method="_on_Area_body_entered"]
+[connection signal="body_entered" from="creature/boid/Area" to="creature/boid/NoiseWander" method="_on_Area_body_entered"]
+[connection signal="body_entered" from="creature/boid/Area" to="creature/boid/PathFollow" method="_on_Area_body_entered"]
 [connection signal="body_entered" from="creature/boid/Area" to="creature/boid/UserSteering" method="_on_I_AM_AREA_body_entered"]
 [connection signal="body_entered" from="creature/boid/Area" to="Player" method="_on_I_AM_AREA_body_entered"]
+[connection signal="body_exited" from="creature/boid/Area" to="creature/boid/Avoidance" method="_on_Area_body_exited"]
+[connection signal="body_exited" from="creature/boid/Area" to="creature/boid/Harmonic" method="_on_Area_body_exited"]
+[connection signal="body_exited" from="creature/boid/Area" to="creature/boid/Constrain" method="_on_Area_body_exited"]
+[connection signal="body_exited" from="creature/boid/Area" to="creature/boid/NoiseWander" method="_on_Area_body_exited"]
+[connection signal="body_exited" from="creature/boid/Area" to="creature/boid/PathFollow" method="_on_Area_body_exited"]

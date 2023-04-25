@@ -24,6 +24,12 @@ func _ready():
 	boid = get_parent()
 	pass # Replace with function body.
 
+func _on_Area_body_entered(body):
+	self.enabled = false
+
+
+func _on_Area_body_exited(body):
+	self.enabled = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

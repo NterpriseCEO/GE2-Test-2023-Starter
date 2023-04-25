@@ -2,14 +2,13 @@ class_name PlayerSteering extends SteeringBehavior
 
 var force:Vector3
 
+
+
 func draw_gizmos():
 	DebugDraw.draw_arrow_line(boid.global_transform.origin, boid.global_transform.origin + force * 10 * weight, Color.yellow, 0.1)
 
 func _ready():
 	boid = get_parent()
-	
-	var player = get_node('../../../Player')
-	player.connect("user_steering_disabled", self, "_on_player_control_disabled")
 
 func calculate():
 	var projectedRight = boid.global_transform.basis.x

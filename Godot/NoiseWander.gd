@@ -30,6 +30,13 @@ func _process(delta):
 		DebugDraw.draw_line(boid.global_transform.origin, cent, Color.hotpink)
 		DebugDraw.draw_arrow_line(cent, world_target, Color.hotpink, 0.1)
 
+func _on_Area_body_entered(body):
+	self.enabled = false
+
+
+func _on_Area_body_exited(body):
+	self.enabled = true
+
 func calculate():		
 	var n  = noise.get_noise_1d(theta)
 	var angle = deg2rad(n * amplitude)
