@@ -8,13 +8,11 @@
 [node name="creature" parent="." instance=ExtResource( 1 )]
 
 [node name="boid" parent="creature" index="1"]
-banking = 0.1
 draw_gizmos = true
 
 [node name="Seek" parent="creature/boid" index="7"]
 draw_gizmos = true
 enabled = true
-targetNodePath = NodePath("../../../Position3D")
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 3.06247, 25.4759, 23.4038 )
